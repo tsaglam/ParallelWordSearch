@@ -38,7 +38,7 @@ class PerformanceBenchmark {
     }
 
     static Stream<SearchableDictionary> testDictionaries() {
-        return Stream.of(new NaiveWordSearch(combinations));
+        return Stream.of(new NaiveWordSearch(combinations), new ParallelStreamWordSearch(combinations));
     }
 
     @ParameterizedTest
@@ -51,7 +51,7 @@ class PerformanceBenchmark {
         long endTime = System.currentTimeMillis();
         double durationInSeconds = (endTime - startTime) / 1000.0;
 
-        System.out.println(durationInSeconds);
+        System.out.println(testDictionary.getClass().getSimpleName() + ": " + durationInSeconds + "s");
 
         assertEquals(26, results.size());
         results.forEach(it -> it.startsWith(TEST_PREFIX));
