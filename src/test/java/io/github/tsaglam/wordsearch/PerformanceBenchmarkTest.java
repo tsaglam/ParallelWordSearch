@@ -18,9 +18,9 @@ import io.github.tsaglam.wordsearch.impl.ParallelStreamWordSearch;
 import io.github.tsaglam.wordsearch.impl.TreeSetWordSearch;
 
 /**
- * Performance benchmark for the parallel word search.
+ * Performance benchmark for the parallel word search. Does not contain classical unit tests.
  */
-class PerformanceBenchmark {
+public class PerformanceBenchmarkTest {
 
     private static List<String> combinations;
     private static List<String> testPrefixes;
@@ -57,8 +57,8 @@ class PerformanceBenchmark {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("provideDictionaries")
     @DisplayName("Search performance with a four-letter prefix.")
+    @MethodSource("provideDictionaries")
     void testPrefixSearch(String name, SearchableDictionary testDictionary) {
         double durationInSeconds = measure(() -> {
             for (String prefix : testPrefixes) {
@@ -70,8 +70,8 @@ class PerformanceBenchmark {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("provideDictionaryConstructors")
     @DisplayName("Datastructure creation performance.")
+    @MethodSource("provideDictionaryConstructors")
     void testDataStructureCreation(String name, Function<List<String>, SearchableDictionary> dictionaryCreation) {
         double durationInSeconds = measure(() -> dictionaryCreation.apply(combinations));
         System.out.println(name + ": " + durationInSeconds + "s");
