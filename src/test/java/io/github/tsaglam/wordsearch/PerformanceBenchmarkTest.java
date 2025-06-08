@@ -3,7 +3,6 @@ package io.github.tsaglam.wordsearch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -50,10 +49,10 @@ public class PerformanceBenchmarkTest {
     }
 
     static Stream<Arguments> provideDictionaryConstructors() {
-        return Stream.of(Arguments.of("Naive", (Function<List<String>, SearchableDictionary>) NaiveWordSearch::new),
-                Arguments.of("ParallelStream", (Function<List<String>, SearchableDictionary>) ParallelStreamWordSearch::new),
-                Arguments.of("TreeSet", (Function<List<String>, SearchableDictionary>) TreeSetWordSearch::new),
-                Arguments.of("ForestBased", (Function<List<String>, SearchableDictionary>) (words) -> new ForestWordSearch(words)));
+        return Stream.of(Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new),
+                Arguments.of("ParallelStream", (DictionarySupplier) ParallelStreamWordSearch::new),
+                Arguments.of("TreeSet", (DictionarySupplier) TreeSetWordSearch::new),
+                Arguments.of("ForestBased", (DictionarySupplier) ForestWordSearch::new));
     }
 
     @ParameterizedTest(name = "{0}")
@@ -72,8 +71,8 @@ public class PerformanceBenchmarkTest {
     @ParameterizedTest(name = "{0}")
     @DisplayName("Datastructure creation performance.")
     @MethodSource("provideDictionaryConstructors")
-    void testDataStructureCreation(String name, Function<List<String>, SearchableDictionary> dictionaryCreation) {
-        double durationInSeconds = measure(() -> dictionaryCreation.apply(combinations));
+    void testDataStructureCreation(String name, DictionarySupplier supplier) {
+        double durationInSeconds = measure(() -> supplier.create(combinations));
         System.out.println(name + ": " + durationInSeconds + "s");
     }
 
