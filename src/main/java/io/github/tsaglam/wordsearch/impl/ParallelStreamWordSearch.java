@@ -1,19 +1,21 @@
-package io.github.tsaglam.parallelwordsearch;
+package io.github.tsaglam.wordsearch.impl;
 
 import java.util.List;
 
+import io.github.tsaglam.wordsearch.SearchableDictionary;
+
 /**
- * Naive implementation of a searchable dictionary based on lists and sequential search.
+ * Naive but parallel implementation of a searchable dictionary based on parallel streams.
  */
-public class NaiveWordSearch implements SearchableDictionary {
+public class ParallelStreamWordSearch implements SearchableDictionary {
 
     private List<String> words;
 
     /**
-     * Created the dictionary.
+     * Creates the dictionary.
      * @param words specifies the content, cannot be null.
      */
-    public NaiveWordSearch(List<String> words) {
+    public ParallelStreamWordSearch(List<String> words) {
         if (words == null) {
             throw new IllegalArgumentException("Input words cannot be null.");
         }
@@ -25,7 +27,7 @@ public class NaiveWordSearch implements SearchableDictionary {
         if (pattern == null) {
             throw new IllegalArgumentException("Pattern cannot be null.");
         }
-        return words.stream().filter(it -> it.startsWith(pattern)).toList();
+        return words.stream().parallel().filter(it -> it.startsWith(pattern)).toList();
     }
 
 }

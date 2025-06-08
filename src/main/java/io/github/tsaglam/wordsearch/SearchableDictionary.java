@@ -1,4 +1,4 @@
-package io.github.tsaglam.parallelwordsearch;
+package io.github.tsaglam.wordsearch;
 
 import java.util.List;
 
