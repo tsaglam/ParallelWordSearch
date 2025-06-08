@@ -1,4 +1,4 @@
-package io.github.tsaglam.parallelwordsearch;
+package io.github.tsaglam.wordsearch;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import io.github.tsaglam.wordsearch.impl.NaiveWordSearch;
+
 /**
  * Functional tests for the parallel word search.
  */
@@ -19,20 +21,22 @@ class SearchableDictionaryTest {
 
     private static final String TEST_PATTERN = "TEST";
     private static final String TEST_PREFIX = "TES";
+    private List<String> combinationsUnsorted;
     private List<String> combinations;
 
     @BeforeEach
     void setUp() {
-        combinations = new ArrayList<>();
+        combinationsUnsorted = new ArrayList<>();
         for (char first = 'A'; first <= 'Z'; first++) {
             for (char second = 'A'; second <= 'Z'; second++) {
                 for (char third = 'A'; third <= 'Z'; third++) {
                     for (char fourth = 'A'; fourth <= 'Z'; fourth++) {
-                        combinations.add("" + first + second + third + fourth);
+                        combinationsUnsorted.add("" + first + second + third + fourth);
                     }
                 }
             }
         }
+        combinations = new ArrayList<>(combinationsUnsorted);
         Collections.shuffle(combinations);
     }
 
@@ -67,8 +71,10 @@ class SearchableDictionaryTest {
     void testEmptyPattern() {
         String pattern = "";
         SearchableDictionary search = new NaiveWordSearch(combinations);
-        List<String> results = search.findMatchingPrefixes(pattern);
-        assertIterableEquals(combinations, results);
+        List<String> results = new ArrayList<>(search.findMatchingPrefixes(pattern));
+        Collections.sort(results);
+        assertEquals(combinationsUnsorted.size(), results.size());
+        assertIterableEquals(combinationsUnsorted, results);
     }
 
     @Test
