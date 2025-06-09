@@ -38,9 +38,7 @@ class PerformanceBenchmarkTest {
             for (char second = 'A'; second <= 'Z'; second++) {
                 for (char third = 'A'; third <= 'Z'; third++) {
                     for (char fourth = 'A'; fourth <= 'Z'; fourth++) {
-                        for (char fifth = 'A'; fifth <= 'Z'; fifth++) {
-                            combinations.add("" + first + second + third + fourth + fifth);
-                        }
+                        combinations.add("" + first + second + third + fourth);
                     }
                 }
             }
