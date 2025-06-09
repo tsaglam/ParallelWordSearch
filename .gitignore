@@ -38,3 +38,22 @@ result.jplag
 # macOS
 *.DS_Store
 /core/src/test/resources/de/jplag/samples/TMP/
+.Rproj.user
+
+# Rlang + RStudio
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+
+# Logs, temporary files
+*.log
+*.out
+*.aux
+*.toc
+*.nav
+*.snm
+*.vrb
+*.bak
