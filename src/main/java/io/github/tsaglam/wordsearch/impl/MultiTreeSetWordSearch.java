@@ -11,7 +11,6 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  */
 public class MultiTreeSetWordSearch implements SearchableDictionary {
 
-    private static final int TREE_MULTIPLIER = 2;
     private List<TreeSet<String>> dictionaries;
 
     /**
@@ -39,7 +38,7 @@ public class MultiTreeSetWordSearch implements SearchableDictionary {
      * @param words specifies the content, cannot be null.
      */
     public MultiTreeSetWordSearch(List<String> words) {
-        this(words, Runtime.getRuntime().availableProcessors() * TREE_MULTIPLIER);
+        this(words, Runtime.getRuntime().availableProcessors());
     }
 
     @Override

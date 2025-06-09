@@ -11,8 +11,8 @@ loadfonts(quiet = TRUE)
 
 # Preparation:
 data <- read_from_csv()
-#data <- data[data$name != "Naive", ]
-#data <- data[data$name != "ParallelStream", ]
+data <- data[data$name != "Naive", ]
+data <- data[data$name != "ParallelStream", ]
 
 data$name <- factor(
   data$name,
@@ -47,7 +47,7 @@ ggplot(data, aes(x = size, y = time, color = name)) +
   geom_line(size = 0.3) +
   geom_point(size = 1) +
   scale_x_continuous(breaks = seq(0, 6000, by = 500), minor_breaks = NULL) +
-  #coord_cartesian(ylim = c(0, 0.3)) +
+  coord_cartesian(ylim = c(0, 0.3)) +
   labs(x = "No. of Searches", y = "Time in S (Init. + Search)", color = "Approach") +
   theme_minimal() +
   theme(
