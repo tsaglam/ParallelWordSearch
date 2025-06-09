@@ -20,9 +20,8 @@ import org.junit.jupiter.params.provider.MethodSource;
  * Performance benchmark for the parallel word search. Does not contain classical unit tests.
  */
 class PerformanceBenchmarkTest {
-
     private static final String METHOD_SOURCE = "io.github.tsaglam.wordsearch.TestUtils#provideDictionaryConstructors";
-    private static final int BENCHMARK_REPITITIONS = 50;
+    private static final int BENCHMARK_REPITITIONS = 5;
     private static final String CSV_HEADER = "name;time;size";
     private static List<String> combinations;
     private static List<String> testPrefixes;
@@ -73,7 +72,7 @@ class PerformanceBenchmarkTest {
         csvLines.add(CSV_HEADER);
         suggestGarbageCollection();
 
-        for (int numberOfSearches : List.of(5000, 4000, 3000, 2000, 1000, 500, 200, 100, 10, 1)) {
+        for (int numberOfSearches : List.of(6000, 5000, 4000, 3000, 2000, 1000, 500, 200, 100, 10, 1)) {
             List<String> inputs = generateInputs(numberOfSearches);
             double durationInSeconds = measure(() -> {
                 for (int i = 0; i < BENCHMARK_REPITITIONS; i++) {

@@ -26,7 +26,8 @@ public final class TestUtils {
      * Method source for constructors of search algorithms.
      */
     public static Stream<Arguments> provideDictionaryConstructors() {
-        return Stream.of(Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new),
+        return Stream.of( //
+                Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new),
                 Arguments.of("ParallelStream", (DictionarySupplier) ParallelStreamWordSearch::new),
                 Arguments.of("TreeSet", (DictionarySupplier) TreeSetWordSearch::new),
                 Arguments.of("MultiTreeSet", (DictionarySupplier) MultiTreeSetWordSearch::new),
