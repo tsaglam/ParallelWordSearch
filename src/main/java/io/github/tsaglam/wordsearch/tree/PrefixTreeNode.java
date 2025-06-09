@@ -17,7 +17,7 @@ public class PrefixTreeNode implements SearchableDictionary {
 
     private final Map<Character, PrefixTreeNode> children;
     private final int depth;
-    private List<String> storedWords;
+    private List<String> storedWords; // TODO avoid list, use counter for memory.
 
     public PrefixTreeNode(int depth) {
         this.depth = depth;
@@ -50,7 +50,7 @@ public class PrefixTreeNode implements SearchableDictionary {
         for (PrefixTreeNode child : children.values()) { // TODO do in parallel
             words.addAll(child.getContainedWords());
         }
-        return storedWords;
+        return words;
     }
 
     /**
@@ -61,9 +61,12 @@ public class PrefixTreeNode implements SearchableDictionary {
     @Override
     public List<String> findMatchingWords(String pattern) {
         if (pattern.length() == depth) {
-            return getContainedWords();
+            return getContainedWords(); // all words at node and below match
         }
         char indexCharacter = pattern.charAt(depth);
-        return children.get(indexCharacter).findMatchingWords(pattern);
+        if (!children.containsKey(indexCharacter)) {
+            return List.of(); // no matching words
+        }
+        return children.get(indexCharacter).findMatchingWords(pattern); // continue search
     }
 }

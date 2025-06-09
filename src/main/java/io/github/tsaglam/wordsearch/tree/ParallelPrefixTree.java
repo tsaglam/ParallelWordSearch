@@ -9,6 +9,9 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  */ // TODO comment on thread safety
 public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDictionary { // TODO extend jdoc
 
+    // TODO iterative search
+
+    private static final int INITIAL_DEPTH = 0;
     private int size;
 
     /**
@@ -16,7 +19,10 @@ public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDict
      * @param words the list of words to insert.
      */
     public ParallelPrefixTree(List<String> words) {
-        this();
+        super(INITIAL_DEPTH);
+        if (words == null) {
+            throw new IllegalArgumentException("Words cannot be null!");
+        }
         size = words.size();
         // TODO make in parallel.
         for (String word : words) {
@@ -28,7 +34,7 @@ public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDict
      * Constructs an empty prefix tree with an expected branching factor of 26.
      */
     public ParallelPrefixTree() {
-        super(0);
+        super(INITIAL_DEPTH);
     }
 
     /**
@@ -47,5 +53,13 @@ public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDict
      */
     public int size() {  // TODO comment on thread safety
         return size;
+    }
+
+    @Override
+    public List<String> findMatchingWords(String pattern) {
+        if (pattern == null) {
+            throw new IllegalArgumentException("Search pattern cannot be null!");
+        }
+        return super.findMatchingWords(pattern);
     }
 }
