@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import io.github.tsaglam.wordsearch.SearchableDictionary;
 
@@ -53,9 +54,8 @@ public class PrefixTreeNode implements SearchableDictionary {
      * @return the list of words or an empty list if none exist.
      */
     public List<String> getContainedWords() {
-        List<String> words = new ArrayList<>(storedWords);
-        words.addAll(children.values().parallelStream().flatMap(it -> it.getContainedWords().stream()).toList());
-        return words;
+        return Stream.concat(storedWords.stream(),//
+                children.values().parallelStream().flatMap(it -> it.getContainedWords().stream())).toList();
     }
 
     /**
