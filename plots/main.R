@@ -11,8 +11,8 @@ loadfonts(quiet = TRUE)
 
 # Preparation:
 data <- read_from_csv()
-data <- data[data$name != "Naive", ]
-data <- data[data$name != "ParallelStream", ]
+#data <- data[data$name != "Naive", ]
+#data <- data[data$name != "ParallelStream", ]
 
 data$name <- factor(
   data$name,
@@ -20,8 +20,10 @@ data$name <- factor(
     "Naive",
     "ParallelStream",
     "TreeSet",
-    "ForestBased",
-    "PrefixHashing"
+    "MultiTreeSet",
+    "PrefixHashing",
+    "ParallelPrefixTree",
+    "ParallelPrefixForest"
   )
 )
 
