@@ -21,6 +21,7 @@ import io.github.tsaglam.wordsearch.impl.NaiveWordSearch;
 import io.github.tsaglam.wordsearch.impl.ParallelHashingTreeSearch;
 import io.github.tsaglam.wordsearch.impl.ParallelStreamWordSearch;
 import io.github.tsaglam.wordsearch.impl.TreeSetWordSearch;
+import io.github.tsaglam.wordsearch.tree.ParallelPrefixTree;
 
 /**
  * Functional tests for the parallel word search.
@@ -53,7 +54,8 @@ class SearchableDictionaryTest {
                 Arguments.of("ParallelStream", (DictionarySupplier) ParallelStreamWordSearch::new),
                 Arguments.of("TreeSet", (DictionarySupplier) TreeSetWordSearch::new),
                 Arguments.of("MultiTreeSet", (DictionarySupplier) MultiTreeSetWordSearch::new),
-                Arguments.of("PrefixHashing", (DictionarySupplier) ParallelHashingTreeSearch::new));
+                Arguments.of("PrefixHashing", (DictionarySupplier) ParallelHashingTreeSearch::new),
+                Arguments.of("ParallelPrefixTree", (DictionarySupplier) ParallelPrefixTree::new));
     }
 
     @ParameterizedTest(name = "{0}")
@@ -114,12 +116,13 @@ class SearchableDictionaryTest {
 
     @Disabled("Not part of the specifed behavior.")
     @ParameterizedTest(name = "{0}")
-    @DisplayName("Test searching for a word that occurs twice.")
+    @DisplayName("Test searching for a word that occurs more than once.")
     @MethodSource("provideDictionaryConstructors")
     void testDuplicateWord(String name, DictionarySupplier supplier) {
         combinations.add(TEST_PATTERN);
+        combinations.add(TEST_PATTERN); // add two more times to ensure it lands in same bucket
         SearchableDictionary search = supplier.create(combinations);
         List<String> results = search.findMatchingWords(TEST_PATTERN);
-        assertIterableEquals(List.of(TEST_PATTERN, TEST_PATTERN), results);
+        assertIterableEquals(List.of(TEST_PATTERN, TEST_PATTERN, TEST_PATTERN), results);
     }
 }
