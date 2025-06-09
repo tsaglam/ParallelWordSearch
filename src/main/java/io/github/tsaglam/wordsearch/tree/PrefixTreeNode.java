@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.tsaglam.wordsearch.SearchableDictionary;
 
@@ -19,7 +19,8 @@ public class PrefixTreeNode implements SearchableDictionary {
 
     private final Map<Character, PrefixTreeNode> children;
     private final int depth;
-    private List<String> storedWords; // TODO avoid list, use counter for memory.
+    private AtomicInteger numberOfWords;
+    private String prefix;
 
     /**
      * Creates a prefix tree node with a specified depth.
@@ -27,8 +28,8 @@ public class PrefixTreeNode implements SearchableDictionary {
      */
     public PrefixTreeNode(int depth) {
         this.depth = depth;
-        children = new ConcurrentHashMap<>();
-        storedWords = Collections.synchronizedList(new ArrayList<>());
+        children = new ConcurrentHashMap<>(32, 1.0f);
+        numberOfWords = new AtomicInteger();
     }
 
     /**
@@ -37,14 +38,19 @@ public class PrefixTreeNode implements SearchableDictionary {
      * @param word is the word to add.
      */
     public void addWord(String word) {
-        if (word.length() == depth) {
-            storedWords.add(word);
-        } else if (word.length() > depth) {
-            char indexCharacter = word.charAt(depth);
-            children.computeIfAbsent(indexCharacter, key -> new PrefixTreeNode(depth + 1)).addWord(word);
-        } else if (word.length() < depth) {
-            throw new IllegalStateException("Must never occur, word should be stored in (transitive) parent.");
+        PrefixTreeNode current = this;
+        int wordLength = word.length();
+
+        while (current.depth != wordLength) {
+            char indexCharacter = word.charAt(current.depth);
+            int currentDepth = current.depth;
+            current = current.children.computeIfAbsent(indexCharacter, key -> new PrefixTreeNode(currentDepth + 1));
         }
+
+        if (current.prefix == null) {
+            current.prefix = word; // safe due to idempotence
+        }
+        current.numberOfWords.incrementAndGet();
     }
 
     /**
@@ -54,8 +60,14 @@ public class PrefixTreeNode implements SearchableDictionary {
      * @return the list of words or an empty list if none exist.
      */
     public List<String> getContainedWords() {
-        return Stream.concat(storedWords.stream(),//
-                children.values().parallelStream().flatMap(it -> it.getContainedWords().stream())).toList();
+        List<String> results = Collections.synchronizedList(new ArrayList<>());
+        collectWords(results);
+        return results;
+    }
+
+    private void collectWords(List<String> results) {
+        results.addAll(Collections.nCopies(numberOfWords.get(), prefix));
+        children.values().parallelStream().forEach(child -> child.collectWords(results));
     }
 
     /**
