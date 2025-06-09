@@ -1,21 +1,22 @@
 package io.github.tsaglam.wordsearch.tree;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.tsaglam.wordsearch.SearchableDictionary;
 
 /**
- * A prefix tree (Trie) implementation that supports parallel prefix-based word search.
- */ // TODO comment on thread safety
-public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDictionary { // TODO extend jdoc
-
-    // TODO iterative search
+ * A prefix tree (Trie) implementation that supports parallel prefix-based word search. <b>Thread safety:</b> This class
+ * supports concurrent use. Note that while adding concurrently with searching, result may vary (as to be expected).
+ * When using {@link ParallelPrefixTree#ParallelPrefixTree(List)}, all words are added concurrently.
+ */
+public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDictionary { // TODO iterative search?
 
     private static final int INITIAL_DEPTH = 0;
-    private int size;
+    private AtomicInteger size;
 
     /**
-     * Constructs a prefix tree from the given list of words.
+     * Constructs a prefix tree concurrently from the given list of words.
      * @param words the list of words to insert.
      */
     public ParallelPrefixTree(List<String> words) {
@@ -23,11 +24,8 @@ public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDict
         if (words == null) {
             throw new IllegalArgumentException("Words cannot be null!");
         }
-        size = words.size();
-        // TODO make in parallel.
-        for (String word : words) {
-            addWord(word);
-        }
+        size = new AtomicInteger(words.size());
+        words.stream().parallel().forEach(this::addWord);
     }
 
     /**
@@ -35,24 +33,25 @@ public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDict
      */
     public ParallelPrefixTree() {
         super(INITIAL_DEPTH);
+        size = new AtomicInteger();
     }
 
     /**
-     * Adds a word to the tree.
+     * Adds a word to the tree. <b>Thread safety:</b> This method is safe to call concurrently.
      * @param word is the word to add.
      */
     @Override
-    public void addWord(String word) { // TODO comment on thread safety
-        size++;
+    public void addWord(String word) {
+        size.incrementAndGet();
         super.addWord(word);
     }
 
     /**
-     * Returns the number of words stored in the tree.
+     * Returns the number of words stored in the tree. <b>Thread safety:</b> This method is safe to call concurrently.
      * @return the total number of words.
      */
-    public int size() {  // TODO comment on thread safety
-        return size;
+    public int size() {
+        return size.get();
     }
 
     @Override
