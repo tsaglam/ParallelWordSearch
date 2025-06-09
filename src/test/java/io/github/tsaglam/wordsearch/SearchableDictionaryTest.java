@@ -7,27 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import io.github.tsaglam.wordsearch.impl.MultiTreeSetWordSearch;
-import io.github.tsaglam.wordsearch.impl.NaiveWordSearch;
-import io.github.tsaglam.wordsearch.impl.ParallelHashingTreeSearch;
-import io.github.tsaglam.wordsearch.impl.ParallelStreamWordSearch;
-import io.github.tsaglam.wordsearch.impl.TreeSetWordSearch;
-import io.github.tsaglam.wordsearch.tree.ParallelPrefixTree;
 
 /**
  * Functional tests for the parallel word search.
  */
 class SearchableDictionaryTest {
 
+    private static final String METHOD_SOURCE = "io.github.tsaglam.wordsearch.TestUtils#provideDictionaryConstructors";
     private static final String TEST_PATTERN = "TEST";
     private static final String TEST_PREFIX = "TES";
     private List<String> combinationsUnsorted;
@@ -49,18 +41,9 @@ class SearchableDictionaryTest {
         Collections.shuffle(combinations);
     }
 
-    static Stream<Arguments> provideDictionaryConstructors() {
-        return Stream.of(Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new),
-                Arguments.of("ParallelStream", (DictionarySupplier) ParallelStreamWordSearch::new),
-                Arguments.of("TreeSet", (DictionarySupplier) TreeSetWordSearch::new),
-                Arguments.of("MultiTreeSet", (DictionarySupplier) MultiTreeSetWordSearch::new),
-                Arguments.of("PrefixHashing", (DictionarySupplier) ParallelHashingTreeSearch::new),
-                Arguments.of("ParallelPrefixTree", (DictionarySupplier) ParallelPrefixTree::new));
-    }
-
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for a word that occurs once.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testExamplePattern(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(combinations);
         List<String> results = search.findMatchingWords(TEST_PATTERN);
@@ -69,7 +52,7 @@ class SearchableDictionaryTest {
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for a three-letter prefix.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testPrefix(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(combinations);
         List<String> results = search.findMatchingWords(TEST_PREFIX);
@@ -79,7 +62,7 @@ class SearchableDictionaryTest {
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for an empty string.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testEmptyPattern(String name, DictionarySupplier supplier) {
         String pattern = "";
         SearchableDictionary search = supplier.create(combinations);
@@ -91,7 +74,7 @@ class SearchableDictionaryTest {
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for null.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testNullPattern(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(combinations);
         assertThrowsExactly(IllegalArgumentException.class, () -> search.findMatchingWords(null));
@@ -100,7 +83,7 @@ class SearchableDictionaryTest {
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test empty dictionary.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testEmptyDictionary(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(Collections.emptyList());
         List<String> results = search.findMatchingWords(TEST_PATTERN);
@@ -109,7 +92,7 @@ class SearchableDictionaryTest {
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test null-valued dictionary.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testNullDictionary(String name, DictionarySupplier supplier) {
         assertThrowsExactly(IllegalArgumentException.class, () -> supplier.create(null));
     }
@@ -117,7 +100,7 @@ class SearchableDictionaryTest {
     @Disabled("Not part of the specifed behavior.")
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for a word that occurs more than once.")
-    @MethodSource("provideDictionaryConstructors")
+    @MethodSource(METHOD_SOURCE)
     void testDuplicateWord(String name, DictionarySupplier supplier) {
         combinations.add(TEST_PATTERN);
         combinations.add(TEST_PATTERN); // add two more times to ensure it lands in same bucket
