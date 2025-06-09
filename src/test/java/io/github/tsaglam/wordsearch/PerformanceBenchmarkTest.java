@@ -71,7 +71,7 @@ class PerformanceBenchmarkTest {
     void testPrefixSearch(String name, SearchableDictionary testDictionary) {
         double durationInSeconds = measure(() -> {
             for (String prefix : testPrefixes) {
-                testDictionary.findMatchingPrefixes(prefix);
+                testDictionary.findMatchingWords(prefix);
             }
         });
         durationInSeconds /= testPrefixes.size();

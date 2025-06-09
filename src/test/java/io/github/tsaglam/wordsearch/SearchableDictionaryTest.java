@@ -61,7 +61,7 @@ class SearchableDictionaryTest {
     @MethodSource("provideDictionaryConstructors")
     void testExamplePattern(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(combinations);
-        List<String> results = search.findMatchingPrefixes(TEST_PATTERN);
+        List<String> results = search.findMatchingWords(TEST_PATTERN);
         assertIterableEquals(List.of(TEST_PATTERN), results);
     }
 
@@ -70,7 +70,7 @@ class SearchableDictionaryTest {
     @MethodSource("provideDictionaryConstructors")
     void testPrefix(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(combinations);
-        List<String> results = search.findMatchingPrefixes(TEST_PREFIX);
+        List<String> results = search.findMatchingWords(TEST_PREFIX);
         assertEquals(26, results.size());
         results.forEach(it -> it.startsWith(TEST_PREFIX));
     }
@@ -81,7 +81,7 @@ class SearchableDictionaryTest {
     void testEmptyPattern(String name, DictionarySupplier supplier) {
         String pattern = "";
         SearchableDictionary search = supplier.create(combinations);
-        List<String> results = new ArrayList<>(search.findMatchingPrefixes(pattern));
+        List<String> results = new ArrayList<>(search.findMatchingWords(pattern));
         Collections.sort(results);
         assertEquals(combinationsUnsorted.size(), results.size());
         assertIterableEquals(combinationsUnsorted, results);
@@ -92,7 +92,7 @@ class SearchableDictionaryTest {
     @MethodSource("provideDictionaryConstructors")
     void testNullPattern(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(combinations);
-        assertThrowsExactly(IllegalArgumentException.class, () -> search.findMatchingPrefixes(null));
+        assertThrowsExactly(IllegalArgumentException.class, () -> search.findMatchingWords(null));
 
     }
 
@@ -101,7 +101,7 @@ class SearchableDictionaryTest {
     @MethodSource("provideDictionaryConstructors")
     void testEmptyDictionary(String name, DictionarySupplier supplier) {
         SearchableDictionary search = supplier.create(Collections.emptyList());
-        List<String> results = search.findMatchingPrefixes(TEST_PATTERN);
+        List<String> results = search.findMatchingWords(TEST_PATTERN);
         assertIterableEquals(List.of(), results);
     }
 
@@ -119,7 +119,7 @@ class SearchableDictionaryTest {
     void testDuplicateWord(String name, DictionarySupplier supplier) {
         combinations.add(TEST_PATTERN);
         SearchableDictionary search = supplier.create(combinations);
-        List<String> results = search.findMatchingPrefixes(TEST_PATTERN);
+        List<String> results = search.findMatchingWords(TEST_PATTERN);
         assertIterableEquals(List.of(TEST_PATTERN, TEST_PATTERN), results);
     }
 }

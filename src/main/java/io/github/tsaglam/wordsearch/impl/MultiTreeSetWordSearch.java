@@ -43,7 +43,7 @@ public class MultiTreeSetWordSearch implements SearchableDictionary {
     }
 
     @Override
-    public List<String> findMatchingPrefixes(String pattern) {
+    public List<String> findMatchingWords(String pattern) {
         if (pattern == null) {
             throw new IllegalArgumentException("Pattern cannot be null.");
         }
