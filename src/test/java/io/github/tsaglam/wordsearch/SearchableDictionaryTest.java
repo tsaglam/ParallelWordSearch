@@ -16,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import io.github.tsaglam.wordsearch.impl.ForestWordSearch;
+import io.github.tsaglam.wordsearch.impl.MultiTreeSetWordSearch;
 import io.github.tsaglam.wordsearch.impl.NaiveWordSearch;
 import io.github.tsaglam.wordsearch.impl.ParallelHashingTreeSearch;
 import io.github.tsaglam.wordsearch.impl.ParallelStreamWordSearch;
@@ -52,7 +52,7 @@ class SearchableDictionaryTest {
         return Stream.of(Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new),
                 Arguments.of("ParallelStream", (DictionarySupplier) ParallelStreamWordSearch::new),
                 Arguments.of("TreeSet", (DictionarySupplier) TreeSetWordSearch::new),
-                Arguments.of("ForestBased", (DictionarySupplier) ForestWordSearch::new),
+                Arguments.of("MultiTreeSet", (DictionarySupplier) MultiTreeSetWordSearch::new),
                 Arguments.of("PrefixHashing", (DictionarySupplier) ParallelHashingTreeSearch::new));
     }
 

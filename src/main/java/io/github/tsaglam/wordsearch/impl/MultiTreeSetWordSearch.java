@@ -7,9 +7,9 @@ import java.util.TreeSet;
 import io.github.tsaglam.wordsearch.SearchableDictionary;
 
 /**
- * Parallel implementation of a searchable dictionary based on multiple tree sets.
+ * Parallel implementation of a searchable dictionary based on a forest of tree sets.
  */
-public class ForestWordSearch implements SearchableDictionary {
+public class MultiTreeSetWordSearch implements SearchableDictionary {
 
     private static final int TREE_MULTIPLIER = 2;
     private List<TreeSet<String>> dictionaries;
@@ -19,7 +19,7 @@ public class ForestWordSearch implements SearchableDictionary {
      * @param words specifies the content, cannot be null.
      * @param numberOfTrees specifies how many trees are managed in parallel.
      */
-    public ForestWordSearch(List<String> words, int numberOfTrees) {
+    public MultiTreeSetWordSearch(List<String> words, int numberOfTrees) {
         if (words == null) {
             throw new IllegalArgumentException("Input words cannot be null.");
         }
@@ -38,7 +38,7 @@ public class ForestWordSearch implements SearchableDictionary {
      * Creates the dictionary with the number of trees based on the number of threads.
      * @param words specifies the content, cannot be null.
      */
-    public ForestWordSearch(List<String> words) {
+    public MultiTreeSetWordSearch(List<String> words) {
         this(words, Runtime.getRuntime().availableProcessors() * TREE_MULTIPLIER);
     }
 
