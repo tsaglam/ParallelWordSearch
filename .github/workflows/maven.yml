@@ -13,14 +13,38 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
+
     - name: Build with Maven (more heap)
       run: mvn -B clean test -Dsurefire.argLine="-Xmx4g"
       env:
         MAVEN_OPTS: -Xmx4g
-        
+
+    - name: Install R
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y r-base
+
+    - name: Install required R packages
+      run: |
+        Rscript -e 'install.packages(c("ggplot2", "extrafont", "dplyr", "reshape2"), repos="https://cloud.r-project.org")'
+
+    - name: Import fonts for extrafont
+      run: |
+        Rscript -e 'extrafont::font_import(prompt = FALSE)'
+        Rscript -e 'extrafont::loadfonts()'
+
+    - name: Run plotting script
+      run: Rscript plots/main.R
+
+    - name: Upload plots
+      uses: actions/upload-artifact@v4
+      with:
+        name: plot-pdfs
+        path: plots/output/*.pdf
