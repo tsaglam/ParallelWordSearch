@@ -72,7 +72,7 @@ class PerformanceBenchmarkTest {
         csvLines.add(CSV_HEADER);
         suggestGarbageCollection();
 
-        for (int numberOfSearches : List.of(6000, 5000, 4000, 3000, 2000, 1000, 500, 200, 100, 10, 1)) {
+        for (int numberOfSearches : List.of(3000, 2000, 1000, 500, 200, 100, 10, 1)) {
             List<String> inputs = generateInputs(numberOfSearches);
             double durationInSeconds = measure(() -> {
                 for (int i = 0; i < BENCHMARK_REPETITIONS; i++) {
