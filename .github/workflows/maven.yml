@@ -33,15 +33,22 @@ jobs:
 
     - name: Install required R packages
       run: |
+        mkdir -p ~/.R/libs
+        echo 'R_LIBS_USER="~/.R/libs"' >> ~/.Renviron
         Rscript -e 'install.packages(c("ggplot2", "extrafont", "dplyr", "reshape2"), repos="https://cloud.r-project.org")'
+      shell: bash
 
     - name: Import fonts for extrafont
       run: |
         Rscript -e 'extrafont::font_import(prompt = FALSE)'
         Rscript -e 'extrafont::loadfonts()'
+      env:
+        R_LIBS_USER: ~/.R/libs
 
     - name: Run plotting script
       run: Rscript plots/main.R
+      env:
+        R_LIBS_USER: ~/.R/libs
 
     - name: Upload plots
       uses: actions/upload-artifact@v4
