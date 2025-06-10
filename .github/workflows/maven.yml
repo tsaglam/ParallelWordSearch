@@ -46,7 +46,8 @@ jobs:
         R_LIBS_USER: ~/.R/libs
 
     - name: Run plotting script
-      run: Rscript plots/main.R
+      run: Rscript main.R
+      working-directory: plots
       env:
         R_LIBS_USER: ~/.R/libs
 
