@@ -1,9 +1,7 @@
 library(ggplot2)
 library(extrafont)
-library(cowplot)
-library(magrittr)
 library(dplyr)
-library(stringr)
+
 source("data_processing.R")
 
 font_import()
@@ -11,8 +9,9 @@ loadfonts(quiet = TRUE)
 
 # Preparation:
 data <- read_from_csv()
-data <- data[data$name != "Naive", ]
-data <- data[data$name != "ParallelStream", ]
+#data <- data[data$name != "Naive",]
+#data <- data[data$name != "ParallelStream",]
+data <- data[data$size < 1000, ]
 
 data$name <- factor(
   data$name,
@@ -42,11 +41,10 @@ plot_and_save <- function(label) {
   )
 }
 
-
 ggplot(data, aes(x = size, y = time, color = name)) +
   geom_line(size = 0.3) +
   geom_point(size = 1) +
-  scale_x_continuous(breaks = seq(0, 6000, by = 500), minor_breaks = NULL) +
+  scale_x_continuous(breaks = seq(0, 10000, by = 25), minor_breaks = NULL) +
   coord_cartesian(ylim = c(0, 0.3)) +
   labs(x = "No. of Searches", y = "Time in S (Init. + Search)", color = "Approach") +
   theme_minimal() +
