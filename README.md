@@ -21,6 +21,15 @@ There are two main types of unit test classes in this project:
 - **Functional Tests ([SearchableDictionaryTest](https://github.com/tsaglam/ParallelWordSearch/blob/main/src/test/java/io/github/tsaglam/wordsearch/SearchableDictionaryTest.java))**: These tests verify that each implementation correctly implements the specified behavior and edge cases.
 - **Performance Benchmark ([PerformanceBenchmarkTest](https://github.com/tsaglam/ParallelWordSearch/blob/main/src/test/java/io/github/tsaglam/wordsearch/PerformanceBenchmarkTest.java))**: These tests measure the performance of different implementations for both word search and data structure construction. The combined benchmark outputs CSV data, which can be used to generate plots.
 
+## CI
+
+The CI workflow includes the build and continuous benchmarking:
+
+- Running Java maven build.
+- Running the functional tests and the performance benchmark.
+- Running the plotting scripts.
+- Attaching the plotted PDF files as artifacts.
+
 ## Usage
 
 ### Build and Test
@@ -29,6 +38,12 @@ This project uses Maven. To build and run all tests and benchmarks:
 
 ```sh
 mvn clean test
+```
+
+To apply auto formatting:
+
+```sh
+mvn spotless:apply
 ```
 
 ### Plotting
