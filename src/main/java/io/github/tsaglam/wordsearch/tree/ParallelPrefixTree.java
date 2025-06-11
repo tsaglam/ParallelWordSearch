@@ -10,7 +10,7 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  * supports concurrent use. Note that while adding concurrently with searching, result may vary (as to be expected).
  * When using {@link ParallelPrefixTree#ParallelPrefixTree(List)}, all words are added concurrently.
  */
-public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDictionary { // TODO iterative search?
+public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDictionary {
 
     private static final int INITIAL_DEPTH = 0;
     private AtomicInteger size;

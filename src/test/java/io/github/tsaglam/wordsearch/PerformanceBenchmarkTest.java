@@ -1,5 +1,6 @@
 package io.github.tsaglam.wordsearch;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ class PerformanceBenchmarkTest {
         });
         durationInSeconds /= testPrefixes.size();
         System.out.println("search 25x in " + name + ": " + String.format("%.6f", durationInSeconds) + "s");
+        assertTrue(durationInSeconds < 0.02);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -53,6 +55,7 @@ class PerformanceBenchmarkTest {
     void testDataStructureCreation(String name, DictionarySupplier supplier) {
         double durationInSeconds = measure(() -> supplier.create(combinations));
         System.out.println("creation of " + name + ": " + durationInSeconds + "s");
+        assertTrue(durationInSeconds < 0.5);
     }
 
     @ParameterizedTest(name = "{0}")

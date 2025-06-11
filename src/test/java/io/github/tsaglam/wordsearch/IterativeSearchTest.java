@@ -1,6 +1,6 @@
 package io.github.tsaglam.wordsearch;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +21,7 @@ class IterativeSearchTest {
     private ParallelPrefixTree searchTree;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         combinations = TestUtils.createTestData();
         Collections.shuffle(combinations);
         searchTree = new ParallelPrefixTree();

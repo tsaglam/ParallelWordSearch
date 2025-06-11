@@ -8,14 +8,14 @@ import java.util.List;
  */
 public class IterativeTreeSearch {
 
-    private PrefixTreeNode tree;
+    private PrefixTreeNode node;
 
     /**
      * Creates the search based on a {@link ParallelPrefixTree}.
-     * @param tree is the tree to search. Can be {@link ParallelPrefixTree} or {@link PrefixTreeNode}.
+     * @param tree is the tree to search.
      */
-    public IterativeTreeSearch(PrefixTreeNode tree) {
-        this.tree = tree;
+    public IterativeTreeSearch(ParallelPrefixTree tree) {
+        this.node = tree; // tree is a (root) node
     }
 
     /**
@@ -25,8 +25,8 @@ public class IterativeTreeSearch {
      * @return the search results for the current character.
      */
     public List<String> findMatchingWords(char patternCharacter) {
-        tree = tree.getChildFor(patternCharacter);
-        return tree.getContainedWords();
+        node = node.getChildFor(patternCharacter);
+        return node.getContainedWords();
     }
 
 }
