@@ -21,6 +21,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Spotless Style Check
+      run: mvn clean spotless:check
+
     - name: Build with Maven (more heap)
       run: mvn -B clean test -Dsurefire.argLine="-Xmx4g"
       env:
