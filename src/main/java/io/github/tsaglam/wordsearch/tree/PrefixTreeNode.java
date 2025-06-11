@@ -19,8 +19,8 @@ public class PrefixTreeNode implements SearchableDictionary {
 
     private final Map<Character, PrefixTreeNode> children;
     private final int depth;
-    private AtomicInteger numberOfWords;
     private String prefix;
+    private AtomicInteger numberOfWords;
 
     /**
      * Creates a prefix tree node with a specified depth.
@@ -39,9 +39,8 @@ public class PrefixTreeNode implements SearchableDictionary {
      */
     public void addWord(String word) {
         PrefixTreeNode current = this;
-        int wordLength = word.length();
 
-        while (current.depth != wordLength) {
+        while (current.depth != word.length()) {
             char indexCharacter = word.charAt(current.depth);
             int currentDepth = current.depth;
             current = current.children.computeIfAbsent(indexCharacter, key -> new PrefixTreeNode(currentDepth + 1));
@@ -87,5 +86,14 @@ public class PrefixTreeNode implements SearchableDictionary {
             return List.of(); // no matching words
         }
         return children.get(indexCharacter).findMatchingWords(pattern); // continue search
+    }
+
+    /**
+     * Returns the subtree of this node that corresponds to the specified character.
+     * @param character is the index character of the child node.
+     * @return the specified node, or a new empty node if none existed.
+     */
+    /* package-private */ PrefixTreeNode getChildFor(char character) {
+        return children.computeIfAbsent(character, key -> new PrefixTreeNode(depth + 1));
     }
 }
