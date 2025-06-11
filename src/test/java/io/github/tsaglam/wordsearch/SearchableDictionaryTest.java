@@ -88,7 +88,7 @@ class SearchableDictionaryTest {
         assertThrowsExactly(IllegalArgumentException.class, () -> supplier.create(null));
     }
 
-    @Disabled("Not part of the specifed behavior.")
+    @Disabled("Not part of the specified behavior.")
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for a word that occurs more than once.")
     @MethodSource(METHOD_SOURCE)

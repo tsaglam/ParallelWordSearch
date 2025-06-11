@@ -50,7 +50,7 @@ class PerformanceBenchmarkTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @DisplayName("Datastructure creation performance.")
+    @DisplayName("Data structure creation performance.")
     @MethodSource(METHOD_SOURCE)
     void testDataStructureCreation(String name, DictionarySupplier supplier) {
         double durationInSeconds = measure(() -> supplier.create(combinations));

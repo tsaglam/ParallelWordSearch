@@ -1,6 +1,6 @@
 # Parallel Word Search
 
-A suite of multithreaded implementations of efficient prefix-based search in large sets of strings. The project explores and benchmarks various sequential and parallel implementations, with a highlight on the highly concurrent [ParallelPrefixTree](https://github.com/tsaglam/ParallelWordSearch/blob/main/src/main/java/io/github/tsaglam/wordsearch/tree/ParallelPrefixTree.java) Trie data structure. All approaches are ready-to-benchmark can be compared via JUnit tests.
+A suite of multithreaded implementations of efficient prefix-based search in large sets of strings. The project explores and benchmarks various sequential and parallel implementations, with a highlight on the highly concurrent [ParallelPrefixTree](https://github.com/tsaglam/ParallelWordSearch/blob/main/src/main/java/io/github/tsaglam/wordsearch/tree/ParallelPrefixTree.java) Trie data structure. All approaches are ready to be benchmarked and can be compared using JUnit tests.
 
 ## Implementations
 
@@ -40,7 +40,7 @@ This project uses Maven. To build and run all tests and benchmarks:
 mvn clean test
 ```
 
-To apply auto formatting:
+To apply auto-formatting:
 
 ```sh
 mvn spotless:apply
@@ -48,10 +48,10 @@ mvn spotless:apply
 
 ### Plotting
 
-For the benchmark tests, optional plotting is available. For this, you need Rlang installed and optionally RStudio. To plot the CSV files in the `plots/input` directory, run `plots/main.R`.
+For the benchmark tests, optional plotting is available. For this, you need Rlang installed, and optionally, RStudio. To plot the CSV files in the `plots/input` directory, run `plots/main.R`.
 
 ### Requirements
 
 - Java 21+
 - Maven 3.x
-- Rlang, e.g., 4.5.x (for plotting; optional but required if you want to generate plots)
+- R, e.g., 4.5.x (optional, for plotting)
