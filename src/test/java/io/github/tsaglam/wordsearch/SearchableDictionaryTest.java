@@ -27,16 +27,7 @@ class SearchableDictionaryTest {
 
     @BeforeEach
     void setUp() {
-        combinationsUnsorted = new ArrayList<>();
-        for (char first = 'A'; first <= 'Z'; first++) {
-            for (char second = 'A'; second <= 'Z'; second++) {
-                for (char third = 'A'; third <= 'Z'; third++) {
-                    for (char fourth = 'A'; fourth <= 'Z'; fourth++) {
-                        combinationsUnsorted.add("" + first + second + third + fourth);
-                    }
-                }
-            }
-        }
+        combinationsUnsorted = TestUtils.createTestData();
         combinations = new ArrayList<>(combinationsUnsorted);
         Collections.shuffle(combinations);
     }

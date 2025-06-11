@@ -28,16 +28,7 @@ class PerformanceBenchmarkTest {
 
     @BeforeAll
     static void setUpClass() {
-        combinations = new ArrayList<>();
-        for (char first = 'A'; first <= 'Z'; first++) {
-            for (char second = 'A'; second <= 'Z'; second++) {
-                for (char third = 'A'; third <= 'Z'; third++) {
-                    for (char fourth = 'A'; fourth <= 'Z'; fourth++) {
-                        combinations.add("" + first + second + third + fourth); // 456,976 words
-                    }
-                }
-            }
-        }
+        combinations = TestUtils.createTestData();
         Collections.shuffle(combinations);
         testPrefixes = createTestPrefixes();
     }
