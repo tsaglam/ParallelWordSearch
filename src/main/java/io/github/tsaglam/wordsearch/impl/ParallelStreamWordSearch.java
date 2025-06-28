@@ -14,6 +14,7 @@ public class ParallelStreamWordSearch implements SearchableDictionary {
     /**
      * Creates the dictionary.
      * @param words specifies the content, cannot be null.
+     * @throws IllegalArgumentException if words is null.
      */
     public ParallelStreamWordSearch(List<String> words) {
         if (words == null) {

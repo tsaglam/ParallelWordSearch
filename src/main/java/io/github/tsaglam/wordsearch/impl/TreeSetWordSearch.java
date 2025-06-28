@@ -16,6 +16,7 @@ public class TreeSetWordSearch implements SearchableDictionary {
     /**
      * Creates the dictionary.
      * @param words specifies the content, cannot be null.
+     * @throws IllegalArgumentException if words is null.
      */
     public TreeSetWordSearch(List<String> words) {
         if (words == null) {

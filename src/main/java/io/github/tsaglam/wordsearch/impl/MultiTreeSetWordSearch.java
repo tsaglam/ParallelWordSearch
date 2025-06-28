@@ -17,6 +17,7 @@ public class MultiTreeSetWordSearch implements SearchableDictionary {
      * Creates the dictionary.
      * @param words specifies the content, cannot be null.
      * @param numberOfTrees specifies how many trees are managed in parallel.
+     * @throws IllegalArgumentException if words is null.
      */
     public MultiTreeSetWordSearch(List<String> words, int numberOfTrees) {
         if (words == null) {
