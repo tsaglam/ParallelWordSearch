@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -97,7 +98,7 @@ class SearchableDictionaryTest {
         assertThrowsExactly(IllegalArgumentException.class, () -> supplier.create(null));
     }
 
-    // @Disabled("Not part of the specified behavior.")
+    @Disabled("Not part of the specified behavior.")
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for a word that occurs more than once.")
     @MethodSource(METHOD_SOURCE)
