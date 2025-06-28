@@ -26,7 +26,7 @@ public class IterativeTreeSearch {
      */
     public List<String> findMatchingWords(char patternCharacter) {
         node = node.getChildFor(patternCharacter);
-        return node.getContainedWords();
+        return node.getContainedWords("");
     }
 
 }

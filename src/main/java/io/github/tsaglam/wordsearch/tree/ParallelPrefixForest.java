@@ -18,6 +18,7 @@ public class ParallelPrefixForest implements SearchableDictionary {
      * Creates the forest.
      * @param words specifies the content, cannot be null.
      * @param numberOfTrees specifies how many trees are managed in parallel.
+     * @throws IllegalArgumentException if words is null.
      */
     public ParallelPrefixForest(List<String> words, int numberOfTrees) {
         if (words == null) {

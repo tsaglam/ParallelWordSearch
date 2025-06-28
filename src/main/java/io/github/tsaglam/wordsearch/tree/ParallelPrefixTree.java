@@ -18,6 +18,7 @@ public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDict
     /**
      * Constructs a prefix tree concurrently from the given list of words.
      * @param words the list of words to insert.
+     * @throws IllegalArgumentException if words is null.
      */
     public ParallelPrefixTree(List<String> words) {
         super(INITIAL_DEPTH);

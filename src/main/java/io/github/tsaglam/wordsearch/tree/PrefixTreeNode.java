@@ -19,7 +19,6 @@ public class PrefixTreeNode implements SearchableDictionary {
 
     private final Map<Character, PrefixTreeNode> children;
     private final int depth;
-    private String prefix;
     private AtomicInteger numberOfWords;
 
     /**
@@ -45,28 +44,26 @@ public class PrefixTreeNode implements SearchableDictionary {
             int currentDepth = current.depth;
             current = current.children.computeIfAbsent(indexCharacter, key -> new PrefixTreeNode(currentDepth + 1));
         }
-
-        if (current.prefix == null) {
-            current.prefix = word; // safe due to idempotence
-        }
         current.numberOfWords.incrementAndGet();
+
     }
 
     /**
      * Returns all words contained directly or indirectly under this node. <b>Thread safety:</b> This method is safe to call
      * concurrently only if no modifications are made to the tree during its execution. Concurrent modifications may lead to
      * undefined behavior.
+     * @param prefix is the prefix of all nodes up to including this node.
      * @return the list of words or an empty list if none exist.
      */
-    public List<String> getContainedWords() {
+    public List<String> getContainedWords(String prefix) {
         List<String> results = Collections.synchronizedList(new ArrayList<>());
-        collectWords(results);
+        collectWords(results, prefix);
         return results;
     }
 
-    private void collectWords(List<String> results) {
+    private void collectWords(List<String> results, String prefix) {
         results.addAll(Collections.nCopies(numberOfWords.get(), prefix));
-        children.values().parallelStream().forEach(child -> child.collectWords(results));
+        children.entrySet().parallelStream().forEach(entry -> entry.getValue().collectWords(results, prefix + entry.getKey()));
     }
 
     /**
@@ -79,9 +76,10 @@ public class PrefixTreeNode implements SearchableDictionary {
     @Override
     public List<String> findMatchingWords(String pattern) {
         if (pattern.length() == depth) {
-            return getContainedWords(); // all words at node and below match
+            return getContainedWords(pattern); // all words at node and below match
         }
         char indexCharacter = pattern.charAt(depth);
+
         if (!children.containsKey(indexCharacter)) {
             return List.of(); // no matching words
         }
