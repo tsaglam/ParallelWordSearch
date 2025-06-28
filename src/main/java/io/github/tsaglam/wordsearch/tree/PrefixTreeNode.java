@@ -19,7 +19,7 @@ public class PrefixTreeNode implements SearchableDictionary {
 
     private final Map<Character, PrefixTreeNode> children;
     private final int depth;
-    private AtomicInteger numberOfWords;
+    private final AtomicInteger numberOfWords;
 
     /**
      * Creates a prefix tree node with a specified depth.

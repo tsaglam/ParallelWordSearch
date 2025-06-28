@@ -13,7 +13,7 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
 public class ParallelPrefixTree extends PrefixTreeNode implements SearchableDictionary {
 
     private static final int INITIAL_DEPTH = 0;
-    private AtomicInteger size;
+    private final AtomicInteger size;
 
     /**
      * Constructs a prefix tree concurrently from the given list of words.

@@ -12,7 +12,7 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  */
 public class ParallelPrefixForest implements SearchableDictionary {
 
-    private List<ParallelPrefixTree> dictionaries;
+    private final List<ParallelPrefixTree> dictionaries;
 
     /**
      * Creates the forest.
@@ -32,7 +32,7 @@ public class ParallelPrefixForest implements SearchableDictionary {
             sublists.add(words.subList(i, end));
         }
 
-        dictionaries = sublists.parallelStream().map(it -> new ParallelPrefixTree(it)).toList();
+        dictionaries = sublists.parallelStream().map(ParallelPrefixTree::new).toList();
     }
 
     /**

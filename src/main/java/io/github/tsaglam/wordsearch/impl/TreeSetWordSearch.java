@@ -11,7 +11,7 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  */
 public class TreeSetWordSearch implements SearchableDictionary {
 
-    private TreeSet<String> dictionary;
+    private final TreeSet<String> dictionary;
 
     /**
      * Creates the dictionary.

@@ -11,7 +11,7 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  */
 public class MultiTreeSetWordSearch implements SearchableDictionary {
 
-    private List<TreeSet<String>> dictionaries;
+    private final List<TreeSet<String>> dictionaries;
 
     /**
      * Creates the dictionary.
@@ -31,7 +31,7 @@ public class MultiTreeSetWordSearch implements SearchableDictionary {
             sublists.add(words.subList(i, end));
         }
 
-        dictionaries = sublists.parallelStream().map(it -> new TreeSet<>(it)).toList();
+        dictionaries = sublists.parallelStream().map(TreeSet::new).toList();
     }
 
     /**

@@ -9,7 +9,7 @@ import io.github.tsaglam.wordsearch.SearchableDictionary;
  */
 public class ParallelStreamWordSearch implements SearchableDictionary {
 
-    private List<String> words;
+    private final List<String> words;
 
     /**
      * Creates the dictionary.
