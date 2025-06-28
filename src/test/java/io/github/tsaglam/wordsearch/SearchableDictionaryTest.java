@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -22,6 +21,7 @@ class SearchableDictionaryTest {
     private static final String METHOD_SOURCE = "io.github.tsaglam.wordsearch.TestUtils#provideDictionaryConstructors";
     private static final String TEST_PATTERN = "TEST";
     private static final String TEST_PREFIX = "TES";
+    private static final String EMPTY_WORD = "";
     private List<String> combinationsUnsorted;
     private List<String> combinations;
 
@@ -52,12 +52,21 @@ class SearchableDictionaryTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @DisplayName("Test searching for an empty string.")
+    @DisplayName("Test dictionary with empty word.")
+    @MethodSource(METHOD_SOURCE)
+    void testEmptyString(String name, DictionarySupplier supplier) {
+        SearchableDictionary search = supplier.create(List.of(EMPTY_WORD));
+        List<String> results = search.findMatchingWords(EMPTY_WORD);
+        assertEquals(1, results.size());
+        assertIterableEquals(List.of(EMPTY_WORD), results);
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @DisplayName("Test searching for an empty pattern.")
     @MethodSource(METHOD_SOURCE)
     void testEmptyPattern(String name, DictionarySupplier supplier) {
-        String pattern = "";
         SearchableDictionary search = supplier.create(combinations);
-        List<String> results = new ArrayList<>(search.findMatchingWords(pattern));
+        List<String> results = new ArrayList<>(search.findMatchingWords(EMPTY_WORD));
         Collections.sort(results);
         assertEquals(combinationsUnsorted.size(), results.size());
         assertIterableEquals(combinationsUnsorted, results);
@@ -88,7 +97,7 @@ class SearchableDictionaryTest {
         assertThrowsExactly(IllegalArgumentException.class, () -> supplier.create(null));
     }
 
-    @Disabled("Not part of the specified behavior.")
+    // @Disabled("Not part of the specified behavior.")
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test searching for a word that occurs more than once.")
     @MethodSource(METHOD_SOURCE)

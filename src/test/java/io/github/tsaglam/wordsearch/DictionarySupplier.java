@@ -7,5 +7,11 @@ import java.util.List;
  */
 @FunctionalInterface
 public interface DictionarySupplier {
+
+    /**
+     * Creates a instance of {@link SearchableDictionary} based on a list of words.
+     * @param words is the word list.
+     * @return the instance.
+     */
     SearchableDictionary create(List<String> words);
 }
