@@ -25,6 +25,8 @@ There are two main types of unit test classes in this project:
 
 The CI workflow includes the build and continuous benchmarking:
 
+- JDK + R setup.
+- Spotless style check.
 - Running Java maven build.
 - Running the functional tests and the performance benchmark.
 - Running the plotting scripts.
