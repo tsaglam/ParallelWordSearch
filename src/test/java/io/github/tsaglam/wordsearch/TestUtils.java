@@ -25,17 +25,23 @@ public final class TestUtils {
     }
 
     /**
-     * Method source for constructors of search algorithms.
+     * Method source for constructors of search algorithms excluding naive ones.
      */
     public static Stream<Arguments> provideDictionaryConstructors() {
         return Stream.of( //
-                Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new),
                 Arguments.of("ParallelStream", (DictionarySupplier) ParallelStreamWordSearch::new),
                 Arguments.of("TreeSet", (DictionarySupplier) TreeSetWordSearch::new),
                 Arguments.of("MultiTreeSet", (DictionarySupplier) MultiTreeSetWordSearch::new),
                 Arguments.of("PrefixHashing", (DictionarySupplier) ParallelHashingTreeSearch::new),
                 Arguments.of("ParallelPrefixTree", (DictionarySupplier) ParallelPrefixTree::new),
                 Arguments.of("ParallelPrefixForest", (DictionarySupplier) ParallelPrefixForest::new));
+    }
+
+    /**
+     * Method source for all constructors of search algorithms.
+     */
+    public static Stream<Arguments> provideAllDictionaryConstructors() {
+        return Stream.concat(Stream.of(Arguments.of("Naive", (DictionarySupplier) NaiveWordSearch::new)), provideDictionaryConstructors());
     }
 
     /**
