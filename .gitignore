@@ -57,3 +57,6 @@ result.jplag
 *.snm
 *.vrb
 *.bak
+
+# Other
+*.zip
