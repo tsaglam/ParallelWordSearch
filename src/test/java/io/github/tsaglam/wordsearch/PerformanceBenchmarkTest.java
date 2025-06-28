@@ -61,7 +61,7 @@ class PerformanceBenchmarkTest {
     @ParameterizedTest(name = "{0}")
     @DisplayName("Datastructure creation + search performance.")
     @MethodSource(METHOD_SOURCE)
-    void testBoth(String name, DictionarySupplier supplier) throws InterruptedException {
+    void testBoth(String name, DictionarySupplier supplier) {
         List<String> csvLines = new ArrayList<>();
         csvLines.add(CSV_HEADER);
 
