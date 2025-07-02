@@ -23,7 +23,7 @@ There are two main types of unit test classes in this project:
 
 ## CI
 
-The CI workflow includes the build and continuous benchmarking:
+The [CI workflow](https://github.com/tsaglam/ParallelWordSearch/blob/main/.github/workflows/maven.yml) includes the build and continuous benchmarking:
 
 - JDK + R setup.
 - Spotless style check.
